@@ -8,20 +8,20 @@ const routes = [
   { path: '/login', component: () => import('@/views/login') },
   // 布局
   {
-    path: '/layout', component: () => import('@/layout'), redirect: '/index',
+    path: '/layout', component: () => import('@/layout'), redirect: '/index', meta: { title: '首页' },
     children: [
       // 首页
       { path: '/index', component: () => import('@/views/home') },
       // 贷款申请
-      { path: '/loan-input', component: () => import('@/views/loan-input') },
+      { path: '/loan-input', component: () => import('@/views/loan-input'), meta: { title: '贷款申请' } },
       {
         // 贷款审批
         path: '/loan-approve', component: () => import('@/views/loan-approve'),
         children: [
           // 初审
-          { path: 'first', component: () => import('@/views/loan-approve/first.vue') },
+          { path: 'first', component: () => import('@/views/loan-approve/first.vue'), meta: { title: '初审' } },
           // 终审
-          { path: 'end', component: () => import('@/views/loan-approve/end.vue') }
+          { path: 'end', component: () => import('@/views/loan-approve/end.vue'), meta: { title: '终审' } }
         ]
       },
     ]
