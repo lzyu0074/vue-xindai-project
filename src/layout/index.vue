@@ -1,24 +1,22 @@
 <template>
-  <div>
+  <el-container>
+    <!-- 左侧导航菜单 -->
+
+    <!-- 导航菜单 -->
+    <NavMenu></NavMenu>
+
+    <!-- 右侧 -->
     <el-container>
-      <!-- 左侧导航菜单 -->
-
-      <!-- 导航菜单 -->
-      <NavMenu></NavMenu>
-
-      <!-- 右侧 -->
-      <el-container>
-        <!-- 右侧头部 -->
-        <el-header>
-          <Top></Top>
-        </el-header>
-        <!-- 右侧主体 -->
-        <el-main>
-          <router-view></router-view>
-        </el-main>
-      </el-container>
+      <!-- 右侧头部 -->
+      <el-header>
+        <Top></Top>
+      </el-header>
+      <!-- 右侧主体 -->
+      <el-main>
+        <router-view></router-view>
+      </el-main>
     </el-container>
-  </div>
+  </el-container>
 </template>
 
 <script>
@@ -33,7 +31,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .el-header,
 .el-footer {
   background-color: #b3c0d1;
@@ -43,7 +41,7 @@ export default {
 }
 
 .el-aside {
-  background-color: #d3dce6;
+  background-color: #393e46;
   color: #333;
   text-align: center;
   line-height: 200px;

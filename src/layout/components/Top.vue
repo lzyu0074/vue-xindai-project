@@ -1,10 +1,10 @@
 <template>
   <!-- 右侧头部 -->
-  <div>
+  <div class="top-container">
     <!-- 面包屑 -->
-    <el-breadcrumb separator="/">
+    <el-breadcrumb separator="/" class="breadcrumb">
       <!-- <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item> -->
-      <el-breadcrumb-item :to="{ path: p.path }" v-for="p in breadcrumbList" :key="p.path">{{ p.meta.title }}</el-breadcrumb-item>
+      <el-breadcrumb-item :to="p.path" v-for="p in breadcrumbList" :key="p.path">{{ p.meta.title }}</el-breadcrumb-item>
     </el-breadcrumb>
     <!-- 下拉菜单退出登录 -->
     <el-dropdown trigger="click" @command="handleCommand">
@@ -51,4 +51,13 @@ export default {
 }
 </script>
 
-<style></style>
+<style lang="scss">
+.top-container {
+  display: flex;
+  line-height: 60px;
+}
+.breadcrumb {
+  line-height: 60px;
+  flex: 1;
+}
+</style>
