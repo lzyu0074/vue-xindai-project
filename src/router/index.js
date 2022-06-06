@@ -14,6 +14,7 @@ const routes = [
       { path: '/index', component: () => import('@/views/home') },
       // 贷款申请
       { path: '/loan-input', component: () => import('@/views/loan-input'), meta: { title: '贷款申请' } },
+      { path: '/input-manager', component: () => import('@/views/input-manager'), meta: { title: '申请管理' } },
       {
         // 贷款审批
         path: '/loan-approve', component: () => import('@/views/loan-approve'),
