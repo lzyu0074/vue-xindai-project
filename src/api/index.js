@@ -8,3 +8,6 @@ export const reqLogout = () => request({ url: 'user/logout', method: 'post' })
 
 // 贷款申请
 export const reqLoanCreate = (data) => request({ url: 'loan/create', method: 'post', data })
+
+// 申请管理
+export const reqLoanQuery = (data) => request({ url: 'loan/list', method: 'get', params: data })

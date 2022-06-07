@@ -70,9 +70,4 @@ body > .el-container {
 .menu-wrapper {
   overflow: hidden;
 }
-.el-submenu {
-  .el-menu-item {
-    width: 199px;
-  }
-}
 </style>
