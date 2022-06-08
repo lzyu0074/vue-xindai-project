@@ -459,7 +459,7 @@ export default {
     },
     // 随机姓名
     randomName() {
-      const familyNames = new Array(
+      const familyNames = [
         '赵',
         '钱',
         '孙',
@@ -560,8 +560,8 @@ export default {
         '穆',
         '萧',
         '尹'
-      )
-      const givenNames = new Array(
+      ]
+      const givenNames = [
         '子璇',
         '淼',
         '国栋',
@@ -663,7 +663,7 @@ export default {
         '天昊',
         '萌萌',
         '若萌'
-      )
+      ]
       const i = parseInt(Math.random() * familyNames.length)
       const familyName = familyNames[i]
       const j = parseInt(Math.random() * givenNames.length)

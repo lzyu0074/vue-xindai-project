@@ -1,4 +1,5 @@
 <template>
+
   <el-table :data="tableData"
             style="width: 100%"
             height="500">
@@ -7,35 +8,52 @@
                      width="100"
                      fixed>
     </el-table-column>
-    <el-table-column prop="date"
-                     label="出生日期"
-                     width="150">
-    </el-table-column>
-    <el-table-column prop="name"
+    <el-table-column prop="sex"
                      label="性别"
-                     width="100">
+                     width="150">
+      <template slot-scope="scope">
+
+        <span style="margin-left: 10px">{{ scope.row.sex | getSex }}</span>
+      </template>
     </el-table-column>
-    <el-table-column prop="address"
+    <el-table-column prop="education"
                      label="教育程度"
                      width="100">
+      <template slot-scope="scope">
+
+        <span style="margin-left: 10px">{{ scope.row.education | getEducation }}</span>
+      </template>
     </el-table-column>
-    <el-table-column prop="address"
+    <el-table-column prop="address1"
                      label="居住地址"
-                     width="200">
+                     width="150">
     </el-table-column>
-    <el-table-column prop="address"
+
+    <el-table-column prop="contact_phone"
                      label="手机号"
                      width="150">
     </el-table-column>
-    <el-table-column prop="address"
+    <el-table-column prop="status"
                      label="申请状态"
                      width="100">
+      <template slot-scope="{row}">
+        <el-tag :type="row.status | getTagType">{{row.status | getStatus }}</el-tag>
+
+      </template>
     </el-table-column>
-    <el-table-column prop="address"
-                     label="操作"
-                     width="150">
+    <el-table-column label="操作"
+                     width="300">
+      <el-button type="primary"
+                 size="mini">编辑</el-button>
+      <el-button type="danger"
+                 size="mini">删除</el-button>
+      <el-button type="warning"
+                 size="mini">提交审核</el-button>
     </el-table-column>
   </el-table>
+
+  <!-- 分页 -->
+
 </template>
 
 <script>
@@ -43,32 +61,7 @@ import { reqLoanQuery } from '@/api'
 export default {
   data() {
     return {
-      tableData: [
-        {
-          name: '张三',
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          name: '张三',
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        },
-        {
-          name: '张三',
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        },
-        {
-          name: '张三',
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }
-      ],
+      tableData: [],
       params: {
         pageNo: 1,
         pageSize: 10,
@@ -82,7 +75,97 @@ export default {
   methods: {
     async getTableList() {
       const { data: res } = await reqLoanQuery(this.params)
-      console.log(res)
+      console.log('申请管理', res)
+      if (res.code === 20000) {
+        this.tableData = res.data.data.data
+      }
+    }
+  },
+  // 过滤器，根据后台返回的数据，来翻译成用户看得懂的数据
+  filters: {
+    getSex(sex) {
+      switch (sex) {
+        case 'man':
+          return '男'
+          break
+        case 'woman':
+          return '女'
+          break
+        default:
+          return sex
+      }
+    },
+    getEducation(education) {
+      switch (education) {
+        case 'college':
+          return '大学'
+          break
+        case 'highschool':
+          return '高中'
+          break
+        default:
+          return education
+      }
+    },
+    getStatus(status) {
+      switch (status) {
+        case 0:
+          return '进件状态'
+          break
+        case 1:
+          return '提交初审'
+          break
+        case 2:
+          return '初审通过'
+          break
+        case 3:
+          return '初审拒绝'
+          break
+        case 4:
+          return '提交终审'
+          break
+        case 5:
+          return '终审通过'
+          break
+        case 6:
+          return '终审拒绝'
+          break
+        case 7:
+          return '生成合同'
+          break
+        default:
+          return status
+      }
+    },
+    getTagType(status) {
+      switch (status) {
+        case 0:
+          return 'info'
+          break
+        case 1:
+          return ''
+          break
+        case 2:
+          return 'success'
+          break
+        case 3:
+          return 'danger'
+          break
+        case 4:
+          return ''
+          break
+        case 5:
+          return 'success'
+          break
+        case 6:
+          return 'danger'
+          break
+        case 7:
+          return 'danger'
+          break
+        default:
+          return 'info'
+      }
     }
   }
 }

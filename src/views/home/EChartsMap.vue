@@ -2,7 +2,7 @@
   <div>
     <!-- 为 ECharts 准备一个定义了宽高的 DOM -->
     <div id="china-map"
-         style="width: 800px;height:600px;"></div>
+         style="width: 500px;height:600px;"></div>
   </div>
 </template>
 

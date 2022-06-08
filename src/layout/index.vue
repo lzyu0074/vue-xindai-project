@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <el-container style="height: 100%;">
     <!-- 左侧导航菜单 -->
 
     <!-- 导航菜单 -->
@@ -10,6 +10,7 @@
       <!-- 右侧头部 -->
       <el-header>
         <Top></Top>
+
       </el-header>
       <!-- 右侧主体 -->
       <el-main>
@@ -65,9 +66,5 @@ body > .el-container {
 
 .el-container:nth-child(7) .el-aside {
   line-height: 320px;
-}
-// 去除导航栏滚动条
-.menu-wrapper {
-  overflow: hidden;
 }
 </style>
