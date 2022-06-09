@@ -1,16 +1,15 @@
 <template>
 
   <el-table :data="tableData"
-            style="width: 100%"
-            height="500">
+            style="width: 100%">
     <el-table-column prop="name"
                      label="姓名"
-                     width="100"
+                     width="80"
                      fixed>
     </el-table-column>
     <el-table-column prop="sex"
                      label="性别"
-                     width="150">
+                     width="50">
       <template slot-scope="scope">
 
         <span style="margin-left: 10px">{{ scope.row.sex | getSex }}</span>
@@ -26,12 +25,12 @@
     </el-table-column>
     <el-table-column prop="address1"
                      label="居住地址"
-                     width="150">
+                     width="100">
     </el-table-column>
 
     <el-table-column prop="contact_phone"
                      label="手机号"
-                     width="150">
+                     width="100">
     </el-table-column>
     <el-table-column prop="status"
                      label="申请状态"
@@ -43,12 +42,19 @@
     </el-table-column>
     <el-table-column label="操作"
                      width="300">
-      <el-button type="primary"
-                 size="mini">编辑</el-button>
-      <el-button type="danger"
-                 size="mini">删除</el-button>
-      <el-button type="warning"
-                 size="mini">提交审核</el-button>
+      <template slot-scope="{row}">
+        <el-button type="primary"
+                   size="mini"
+                   :disabled="row.status !== 0">编辑</el-button>
+        <el-button type="danger"
+                   size="mini"
+                   :disabled="row.status !== 0">删除</el-button>
+        <el-button type="warning"
+                   size="mini"
+                   :disabled="row.status !== 0"
+                   @click="submitToApprove(row.id)">提交审核</el-button>
+      </template>
+
     </el-table-column>
   </el-table>
 
@@ -57,7 +63,8 @@
 </template>
 
 <script>
-import { reqLoanQuery } from '@/api'
+import { reqLoanQuery, reqSubmitToApprove } from '@/api'
+import notification from '@/utils/notification'
 export default {
   data() {
     return {
@@ -73,11 +80,21 @@ export default {
     this.getTableList()
   },
   methods: {
+    // 获取表格数据
     async getTableList() {
       const { data: res } = await reqLoanQuery(this.params)
       console.log('申请管理', res)
       if (res.code === 20000) {
         this.tableData = res.data.data.data
+      }
+    },
+    // 提交审核
+    async submitToApprove(id) {
+      const { data: res } = await reqSubmitToApprove(id)
+      console.log('提交审核：', res)
+      if (res.code === 20000) {
+        notification('成功', '已提交审核')
+        this.getTableList()
       }
     }
   },

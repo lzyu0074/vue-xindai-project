@@ -11,3 +11,6 @@ export const reqLoanCreate = (data) => request({ url: 'loan/create', method: 'po
 
 // 申请管理
 export const reqLoanQuery = (data) => request({ url: 'loan/list', method: 'get', params: data })
+
+// 提交审核
+export const reqSubmitToApprove = (id) => request({ url: 'loan/submitToApprove', method: 'post', data: { id } })

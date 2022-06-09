@@ -1,4 +1,5 @@
 <template>
+  <!-- 贷款申请 -->
   <div class="app-container">
     <div class="filter-container">
     </div>
@@ -8,9 +9,15 @@
              label-position="left"
              label-width="80px">
       <el-card class="box-card">
+
         <div slot="header"
              class="clearfix">
+          <div style="line-height: 14px">
+            <el-button type="primary"
+                       @click="srollToBottom">滚动到底部</el-button>
+          </div>
           <span>个人基本信息</span>
+
         </div>
         <el-row :gutter="10">
           <el-col :xs="24"
@@ -350,7 +357,8 @@
     </el-form>
     <div slot="footer"
          class="dialog-footer">
-      <el-button type="primary"
+      <el-button id="sroll-to-bottom"
+                 type="primary"
                  @click="submitForm('temp')">立即创建</el-button>
       <el-button @click="resetForm('temp')">重置</el-button>
 
@@ -361,6 +369,7 @@
 <script>
 import { sexOptions, companyOptions, marriageOptions, educationOptions } from '@/utils/selectData'
 import { reqLoanCreate } from '@/api'
+import notification from '@/utils/notification'
 
 export default {
   name: 'ComplexTable',
@@ -370,14 +379,14 @@ export default {
       temp: {
         name: this.randomName(), //姓名
         identity_card: this.randomIdcard(), //身份证
-        birthday: '2022-01-01 23:44:22', //出生日期
-        sex: '男', //性别
+        birthday: new Date(), //出生日期
+        sex: this.randomSex(), //性别
         marriage: '未婚', //婚姻状态
-        education: '大学', //教育程度
-        address1: '居住在某个地方', //居住地址
-        address2: '户籍在某个地方', //户籍地址
-        phone: '13049997888', //居住电话
-        mobile_phone: '13049997888', //手机号
+        education: this.randomEducation(), //教育程度
+        address1: this.randomAdress(), //居住地址
+        address2: this.randomAdress(), //户籍地址
+        phone: this.randomPhone(), //居住电话
+        mobile_phone: this.randomPhone(), //手机号
         company: '中国很厉害公司', //现职公司全称
         trade: '教育', //所属行业
         position: '大佬', //职位
@@ -388,10 +397,10 @@ export default {
         income: '999999', //收支情况
         contact: '父母', //关系1
         contact_name: this.randomName(), //姓名
-        contact_phone: '1377733773', //手机
+        contact_phone: this.randomPhone(), //手机
         contact2: '同事', //关系2
         contact2_name: this.randomName(), //姓名
-        contact2_phone: '1588888333', //手机
+        contact2_phone: this.randomPhone(), //手机
         contact2_dep: '一部', //部门
         contact2_pos: '上司', //职位
         remark: '无' //备注
@@ -448,13 +457,25 @@ export default {
             console.log('贷款申请', res)
             let { code, data } = res.data
             if (code == 20000) {
+              notification(this.temp.name, '创建成功')
+              // 组件间通信，全局事件总线，将数据传到navMenu组件，让它激活对应的导航项
+              this.$bus.$emit('navChange', '/input-manager')
+              // 路由跳转
               this.$router.push('/input-manager')
+            } else {
+              notification('失败', data, 'warning')
             }
           })
         } else {
           //alert('error submit!!');
           return false
         }
+      })
+    },
+    // 滚动到底部
+    srollToBottom() {
+      document.querySelector('#sroll-to-bottom').scrollIntoView({
+        behavior: 'smooth'
       })
     },
     // 随机姓名
@@ -691,6 +712,37 @@ export default {
         o.value = id_no_String
       }
       return id_no_String
+    },
+    // 随机男女
+    randomSex() {
+      const sex = Math.random() > 0.5 ? '男' : '女'
+      return sex
+    },
+    // 随机教育程度
+    randomEducation() {
+      const education = Math.random() > 0.5 ? '大学' : '高中'
+      return education
+    },
+    // 随机居住地址
+    randomAdress() {
+      const familyNames = ['广东省', '江西省', '福建省', '贵州省', '云南省', '四川省', '青海省', '内蒙古', '河南省']
+      const givenNames = ['人民路', '建设路', '文化路', '解放路', '公园路', '迎宾路', '和平路', '新华路', '青年路']
+      const i = parseInt(Math.random() * familyNames.length)
+      const familyName = familyNames[i]
+      const j = parseInt(Math.random() * givenNames.length)
+      const givenName = givenNames[j]
+      const name = familyName + givenName
+      return name
+    },
+    // 随机手机号
+    randomPhone() {
+      let prefixArray = new Array('130', '131', '132', '133', '135', '137', '138', '170', '187', '189')
+      let i = parseInt(10 * Math.random())
+      let prefix = prefixArray[i]
+      for (var j = 0; j < 8; j++) {
+        prefix = prefix + Math.floor(Math.random() * 10)
+      }
+      return prefix
     }
   }
 }

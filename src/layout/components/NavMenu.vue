@@ -3,7 +3,7 @@
 
   <el-aside width="200px"
             class="menu-wrapper">
-    <el-menu default-active="/index"
+    <el-menu :default-active="defaultActiveIndex"
              class="el-menu-vertical-demo"
              background-color="#393e46"
              text-color="#eeeeee"
@@ -46,7 +46,19 @@
 
 <script>
 export default {
-  name: 'NavMenu'
+  name: 'NavMenu',
+  data() {
+    return {
+      // 默认是/index首页
+      defaultActiveIndex: '/index'
+    }
+  },
+  // 全局事件总线，监听来激活对应的导航项
+  mounted() {
+    this.$bus.$on('navChange', (path) => {
+      this.defaultActiveIndex = path
+    })
+  }
 }
 </script>
 
