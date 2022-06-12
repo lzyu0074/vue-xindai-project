@@ -1,24 +1,56 @@
 <template>
   <div>
     <el-row :gutter="30">
-      <el-col :xs="24" :md="12" :lg="6">
+      <el-col
+        :xs="24"
+        :md="12"
+        :lg="6"
+      >
         <div class="bg">
-          <countTo :startVal="startVal" :endVal="endVal" :duration="duration"></countTo>
+          <countTo
+            :startVal="startVal"
+            :endVal="endVal"
+            :duration="duration"
+          ></countTo>
         </div>
       </el-col>
-      <el-col :xs="24" :md="12" :lg="6">
+      <el-col
+        :xs="24"
+        :md="12"
+        :lg="6"
+      >
         <div class="bg">
-          <countTo :startVal="startVal" :endVal="endVal" :duration="duration"></countTo>
+          <countTo
+            :startVal="startVal"
+            :endVal="endVal"
+            :duration="duration"
+          ></countTo>
         </div>
       </el-col>
-      <el-col :xs="24" :md="12" :lg="6">
+      <el-col
+        :xs="24"
+        :md="12"
+        :lg="6"
+      >
         <div class="bg">
-          <countTo :startVal="startVal" :endVal="endVal" :duration="duration"></countTo>
+          <countTo
+            :startVal="startVal"
+            :endVal="endVal"
+            :duration="duration"
+          ></countTo>
         </div>
       </el-col>
-      <el-col :xs="24" :md="12" :lg="6">
+      <el-col
+        :xs="24"
+        :md="12"
+        :lg="6"
+      >
         <div class="bg">
-          <countTo :startVal="startVal" :endVal="endVal" :duration="duration"></countTo>
+          <countTo
+            :startVal="startVal"
+            :endVal="endVal"
+            :duration="duration"
+          ></countTo>
         </div>
       </el-col>
     </el-row>
@@ -45,6 +77,7 @@ export default {
 <style lang="scss" scoped>
 .bg {
   background-color: #d3dce6;
+  line-height: 100px;
 }
 .el-col {
   margin-bottom: 10px;

@@ -28,7 +28,7 @@
       <el-table-column
         prop="name"
         label="姓名"
-        width="200"
+        width="150"
         fixed
       >
       </el-table-column>
@@ -36,8 +36,18 @@
       <el-table-column
         prop="identity_card"
         label="身份证号码"
-        width="300"
+        width="200"
       >
+      </el-table-column>
+      <el-table-column
+        prop="identity_card"
+        label="合同状态"
+        width="200"
+      >
+        <template slot-scope="{row}">
+          <el-tag type="success">{{row.status | getStatus}}</el-tag>
+
+        </template>
       </el-table-column>
 
       <el-table-column
@@ -48,20 +58,16 @@
           <el-button
             type="primary"
             size="mini"
-          >查看</el-button>
+            :disabled="row.status == 7"
+            @click="onCreate(row.id)"
+          >生成合同</el-button>
           <el-button
             type="danger"
             size="mini"
-            :disabled="row.status !== 1"
-            @click="onPass(row.id)"
-          >通过</el-button>
-          <el-button
-            type="warning"
-            size="mini"
-            :disabled="row.status !== 1"
-            @click="onReject(row.id)"
-            v-loading.fullscreen.lock="fullscreenLoading"
-          >拒绝</el-button>
+            :disabled="row.status == 5"
+            @click="onDownload(row.id)"
+          >下载合同</el-button>
+
         </template>
 
       </el-table-column>
@@ -80,7 +86,7 @@
 </template>
 
 <script>
-import { reqApproveEndtList, reqApproveEndPass, reqApproveEndReject } from '@/api'
+import { reqContractList, reqContractCreateFile, reqContractDownload } from '@/api'
 import notification from '@/utils/notification'
 import Pagination from '@/components/Pagination'
 export default {
@@ -104,8 +110,8 @@ export default {
   methods: {
     // 获取表格数据
     async getTableList() {
-      const { data: res } = await reqApproveEndtList(this.params)
-      console.log('贷款审批终审-获取数据：', res)
+      const { data: res } = await reqContractList(this.params)
+      console.log('标的管理-获取数据：', res)
       if (res.code === 20000) {
         this.tableData = res.data.data.data
         this.total = res.data.rows
@@ -135,13 +141,13 @@ export default {
     onSearch() {
       this.getTableList()
     },
-    // 初审通过
-    async onPass(id) {
+    // 生成合同
+    async onCreate(id) {
       // 开启全屏loading
       this.fullscreenLoading = true
 
-      const { data: res } = await reqApproveEndPass(id)
-      console.log('贷款终审-通过：', res)
+      const { data: res } = await reqContractCreateFile(id)
+      console.log('生成合同：', res)
       if (res.code === 20000) {
         // 关闭loading
         this.fullscreenLoading = false
@@ -153,19 +159,19 @@ export default {
         this.fullscreenLoading = false
       }
     },
-    // 初审拒绝
-    async onReject(id) {
+    // 下载合同
+    async onDownload(id) {
       // 开启全屏loading
       this.fullscreenLoading = true
 
-      const { data: res } = await reqApproveEndReject(id)
-      console.log('贷款终审-拒绝：', res)
+      const { data: res } = await reqContractDownload(id)
+      console.log('下载合同：', res)
       if (res.code === 20000) {
         // 关闭loading
         this.fullscreenLoading = false
 
-        notification('贷款终审已拒绝', res.data.info)
-        this.getTableList()
+        notification('下载合同中。。。', res.data.info)
+        console.log('获取了合同下载地址：', res.data.url)
       } else {
         // 关闭loading
         this.fullscreenLoading = false
@@ -222,7 +228,7 @@ export default {
           return '终审拒绝'
           break
         case 7:
-          return '生成合同'
+          return '已生成合同'
           break
         default:
           return status

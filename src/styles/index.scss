@@ -1,8 +1,8 @@
 body {
   height: 100%;
-  width:100%;
-  margin:0;
-  padding:0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -86,7 +86,7 @@ div:focus {
     visibility: hidden;
     display: block;
     font-size: 0;
-    content: " ";
+    content: ' ';
     clear: both;
     height: 0;
   }
@@ -107,7 +107,7 @@ div:focus {
 }
 
 .text-center {
-  text-align: center
+  text-align: center;
 }
 
 .sub-navbar {

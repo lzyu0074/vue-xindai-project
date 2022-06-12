@@ -447,7 +447,16 @@ export default {
   methods: {
     // 提交表单
     submitForm(formName) {
+      // 开启全屏loading
+      const loading = this.$loading({
+        lock: true,
+        text: '创建中...',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
+
       console.log(11111111)
+      // 获取表单验证
       this.$refs[formName].validate((valid) => {
         console.log(3333333333)
         if (valid) {
@@ -457,6 +466,9 @@ export default {
             console.log('贷款申请', res)
             let { code, data } = res.data
             if (code == 20000) {
+              // 关闭全屏loading
+              loading.close()
+              // 通知提示框
               notification(this.temp.name, '创建成功')
               // 组件间通信，全局事件总线，将数据传到navMenu组件，让它激活对应的导航项
               this.$bus.$emit('navChange', '/input-manager')

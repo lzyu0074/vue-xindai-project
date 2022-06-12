@@ -1,15 +1,33 @@
 <template>
-  <div>
-    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-      <el-form-item label="用户名：" prop="account">
+  <div class="login-container">
+    <el-form
+      :model="ruleForm"
+      :rules="rules"
+      ref="ruleForm"
+      label-width="100px"
+      class="demo-ruleForm"
+    >
+      <el-form-item
+        label="用户名："
+        prop="account"
+      >
         <el-input v-model="ruleForm.account"></el-input>
       </el-form-item>
-      <el-form-item label="密码：" prop="password">
-        <el-input v-model="ruleForm.password" type="password"></el-input>
+      <el-form-item
+        label="密码："
+        prop="password"
+      >
+        <el-input
+          v-model="ruleForm.password"
+          type="password"
+        ></el-input>
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="onLogin('ruleForm')">登录</el-button>
+        <el-button
+          type="primary"
+          @click="onLogin('ruleForm')"
+        >登录</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -57,4 +75,19 @@ export default {
 }
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+body {
+  // 自己加的
+  background-color: #393e46;
+}
+.login-container .el-form-item__label {
+  color: #fff;
+}
+.login-container {
+  width: 300px;
+  height: 300px;
+  margin: 0 auto;
+  padding-top: 200px;
+  color: #fff;
+}
+</style>

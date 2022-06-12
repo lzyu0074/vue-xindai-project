@@ -25,6 +25,7 @@ const routes = [
           { path: 'end', component: () => import('@/views/loan-approve/end.vue'), meta: { title: '终审' } }
         ]
       },
+      { path: '/contract', component: () => import('@/views/contract'), meta: { title: '标的管理' } }
     ]
   },
 

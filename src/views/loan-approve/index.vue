@@ -1,6 +1,6 @@
 <template>
   <div>
-    贷款审批
+    <!-- 贷款审批 -->
     <router-view></router-view>
   </div>
 </template>
