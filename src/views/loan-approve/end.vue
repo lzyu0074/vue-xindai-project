@@ -52,13 +52,13 @@
           <el-button
             type="danger"
             size="mini"
-            :disabled="row.status !== 1"
+            :disabled="row.status !== 4"
             @click="onPass(row.id)"
           >通过</el-button>
           <el-button
             type="warning"
             size="mini"
-            :disabled="row.status !== 1"
+            :disabled="row.status !== 4"
             @click="onReject(row.id)"
             v-loading.fullscreen.lock="fullscreenLoading"
           >拒绝</el-button>

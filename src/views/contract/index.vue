@@ -89,6 +89,7 @@
 import { reqContractList, reqContractCreateFile, reqContractDownload } from '@/api'
 import notification from '@/utils/notification'
 import Pagination from '@/components/Pagination'
+import { getToken } from '@/utils/handleToken'
 export default {
   data() {
     return {
@@ -172,10 +173,36 @@ export default {
 
         notification('下载合同中。。。', res.data.info)
         console.log('获取了合同下载地址：', res.data.url)
+        // 获取合同下载地址后，根据这个地址，请求数据流，再用a标签的download功能来下载
+        this.downloadUrlFile(res.data.url)
       } else {
         // 关闭loading
         this.fullscreenLoading = false
       }
+    },
+    // 新开一个请求，来根据url下载数据流，然后用saveAs方法将数据流通过a标签启动浏览器下载到本地
+    downloadUrlFile(url) {
+      const xhr = new XMLHttpRequest()
+      xhr.open('GET', url, true)
+      xhr.responseType = 'blob'
+      xhr.setRequestHeader('token', getToken())
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          const filename = xhr.responseURL.substring(xhr.responseURL.lastIndexOf('/') + 1)
+          // 保存这个数据流
+          this.saveAs(filename, xhr.response)
+        }
+      }
+      xhr.send()
+    },
+    saveAs(name, data) {
+      const urlObj = window.URL
+      const export_blob = new Blob([data])
+      // 创建a标签
+      const a = document.createElement('a')
+      a.href = urlObj.createObjectURL(export_blob)
+      a.download = name
+      a.click()
     }
   },
   // 过滤器，根据后台返回的数据，来翻译成用户看得懂的数据

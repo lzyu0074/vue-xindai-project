@@ -92,7 +92,7 @@
           <el-button
             type="warning"
             size="mini"
-            :disabled="row.status !== 0 && row.status !== 3 && row.status !== 6 "
+            :disabled="row.status !== 0 && row.status !== 3 && row.status !== 6 && row.status !== 2 "
             @click="submitToApprove(row.id)"
             v-loading.fullscreen.lock="fullscreenLoading"
           >提交审核</el-button>
@@ -162,6 +162,9 @@ export default {
 
         notification('成功', '已提交审核')
         this.getTableList()
+      } else {
+        this.fullscreenLoading = false
+        notification('失败', res.data)
       }
     },
     // 分页两个方法
