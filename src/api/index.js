@@ -39,3 +39,6 @@ export const reqContractCreateFile = (id) => request({ url: 'contract/createFile
 
 // 下载合同
 export const reqContractDownload = (id) => request({ url: 'contract/download', method: 'get', params: { id } })
+
+// 创建角色，需求文档写的是创建管理员
+export const reqCreateUser = (data) => request({ url: 'permission/createUser', method: 'post', data })
