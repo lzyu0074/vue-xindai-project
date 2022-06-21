@@ -42,3 +42,6 @@ export const reqContractDownload = (id) => request({ url: 'contract/download', m
 
 // 创建角色，需求文档写的是创建管理员
 export const reqCreateUser = (data) => request({ url: 'permission/createUser', method: 'post', data })
+
+// 获取角色列表
+export const reqUserList = () => request({ url: 'user/list', method: 'get' })

@@ -1,163 +1,125 @@
 <template>
-  <el-form
-    :model="ruleForm"
-    :rules="rules"
-    ref="ruleForm"
-    label-width="100px"
-    class="demo-ruleForm"
-  >
-    <el-form-item
-      label="活动名称"
-      prop="name"
+  <!-- 角色列表展示 -->
+  <div>
+
+    <!-- 数据表格 -->
+    <el-table
+      :data="tableData"
+      style="width: 100%"
     >
-      <el-input v-model="ruleForm.name"></el-input>
-    </el-form-item>
-    <el-form-item
-      label="活动区域"
-      prop="region"
-    >
-      <el-select
-        v-model="ruleForm.region"
-        placeholder="请选择活动区域"
+      <el-table-column
+        prop="account"
+        label="用户名"
+        width="100"
+        fixed
       >
-        <el-option
-          label="区域一"
-          value="shanghai"
-        ></el-option>
-        <el-option
-          label="区域二"
-          value="beijing"
-        ></el-option>
-      </el-select>
-    </el-form-item>
-    <el-form-item
-      label="活动时间"
-      required
-    >
-      <el-col :span="11">
-        <el-form-item prop="date1">
-          <el-date-picker
-            type="date"
-            placeholder="选择日期"
-            v-model="ruleForm.date1"
-            style="width: 100%;"
-          ></el-date-picker>
-        </el-form-item>
-      </el-col>
-      <el-col
-        class="line"
-        :span="2"
-      >-</el-col>
-      <el-col :span="11">
-        <el-form-item prop="date2">
-          <el-time-picker
-            placeholder="选择时间"
-            v-model="ruleForm.date2"
-            style="width: 100%;"
-          ></el-time-picker>
-        </el-form-item>
-      </el-col>
-    </el-form-item>
-    <el-form-item
-      label="即时配送"
-      prop="delivery"
-    >
-      <el-switch v-model="ruleForm.delivery"></el-switch>
-    </el-form-item>
-    <el-form-item
-      label="活动性质"
-      prop="type"
-    >
-      <el-checkbox-group v-model="ruleForm.type">
-        <el-checkbox
-          label="美食/餐厅线上活动"
-          name="type"
-        ></el-checkbox>
-        <el-checkbox
-          label="地推活动"
-          name="type"
-        ></el-checkbox>
-        <el-checkbox
-          label="线下主题活动"
-          name="type"
-        ></el-checkbox>
-        <el-checkbox
-          label="单纯品牌曝光"
-          name="type"
-        ></el-checkbox>
-      </el-checkbox-group>
-    </el-form-item>
-    <el-form-item
-      label="特殊资源"
-      prop="resource"
-    >
-      <el-radio-group v-model="ruleForm.resource">
-        <el-radio label="线上品牌商赞助"></el-radio>
-        <el-radio label="线下场地免费"></el-radio>
-      </el-radio-group>
-    </el-form-item>
-    <el-form-item
-      label="活动形式"
-      prop="desc"
-    >
-      <el-input
-        type="textarea"
-        v-model="ruleForm.desc"
-      ></el-input>
-    </el-form-item>
-    <el-form-item>
-      <el-button
-        type="primary"
-        @click="submitForm('ruleForm')"
-      >立即创建</el-button>
-      <el-button @click="resetForm('ruleForm')">重置</el-button>
-    </el-form-item>
-  </el-form>
+      </el-table-column>
+
+      <el-table-column
+        prop="password"
+        label="密码"
+        width="100"
+      >
+      </el-table-column>
+
+      <el-table-column
+        prop="reg_time"
+        label="创建时间"
+        width="200"
+      >
+      </el-table-column>
+
+      <el-table-column
+        prop="creator"
+        label="创建者"
+        width="100"
+      >
+      </el-table-column>
+
+      <el-table-column
+        prop="role_name"
+        label="权限分配"
+        width="100"
+      >
+        <template slot-scope="{row}">
+          {{row.role_name | roleName }}
+
+        </template>
+      </el-table-column>
+
+    </el-table>
+    <!-- 分页 -->
+    <Pagination
+      :total="total"
+      :pageSize.sync="params.pageSize"
+      :currentPage.sync="params.pageNo"
+      @getTableList="getTableList"
+    ></Pagination>
+
+  </div>
 
 </template>
+
 <script>
+import { reqUserList } from '@/api'
+import notification from '@/utils/notification'
+import Pagination from '@/components/Pagination'
 export default {
-  name: 'RoleList',
   data() {
     return {
-      ruleForm: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
+      tableData: [],
+      params: {
+        pageNo: 1,
+        pageSize: 5,
+        name: ''
       },
-      rules: {
-        name: [
-          { required: true, message: '请输入活动名称', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ],
-        region: [{ required: true, message: '请选择活动区域', trigger: 'change' }],
-        date1: [{ type: 'date', required: true, message: '请选择日期', trigger: 'change' }],
-        date2: [{ type: 'date', required: true, message: '请选择时间', trigger: 'change' }],
-        type: [{ type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }],
-        resource: [{ required: true, message: '请选择活动资源', trigger: 'change' }],
-        desc: [{ required: true, message: '请填写活动形式', trigger: 'blur' }]
+      // 全屏loading
+      fullscreenLoading: false,
+      // 分页
+      total: 0
+    }
+  },
+  created() {
+    this.getTableList()
+  },
+
+  methods: {
+    // 获取表格数据
+    async getTableList() {
+      const { data: res } = await reqUserList()
+      console.log('获取角色列表', res)
+      if (res.code === 20000) {
+        this.tableData = res.data
+        // this.total = res.data.rows
+      } else {
+        notification('获取数据失败', res.data)
       }
     }
   },
-  methods: {
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          alert('submit!')
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
-    },
-    resetForm(formName) {
-      this.$refs[formName].resetFields()
+  filters: {
+    roleName(val) {
+      switch (val) {
+        case 'approve':
+          return '审核人员'
+          break
+        default:
+          return '销售人员'
+      }
     }
+  },
+
+  components: {
+    Pagination
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.el-table {
+  line-height: 14px;
+  text-align: center;
+}
+.demo-form-inline {
+  text-align: left;
+}
+</style>

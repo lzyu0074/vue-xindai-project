@@ -50,6 +50,7 @@
 </template>
 <script>
 import { reqCreateUser } from '@/api'
+import notification from '@/utils/notification'
 export default {
   name: 'RoleList',
   data() {
@@ -95,16 +96,23 @@ export default {
   // 计算单选框role
   computed: {
     roleId() {
-      return this.role_id === '销售人员' ? '2' : '1'
+      return this.ruleForm.role_id === '销售人员' ? '2' : '1'
     }
   },
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
+          console.log('==========', this.ruleForm.role_id, this.roleId)
           // 表单验证通过
           const { data: res } = await reqCreateUser({ account: this.ruleForm.account, password: this.ruleForm.password, role_id: this.roleId })
           console.log(res)
+          if (res.code === 20000) {
+            notification('成功', '角色创建成功', 'success')
+            this.$router.push('/rights/rolelist')
+            // 组件间通信，全局事件总线，将数据传到navMenu组件，让它激活对应的导航项
+            this.$bus.$emit('navChange', '/rights/rolelist')
+          }
         } else {
           // 表单验证不通过
           console.log('error submit!!')
