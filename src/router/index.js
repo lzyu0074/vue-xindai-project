@@ -8,10 +8,10 @@ const routes = [
   { path: '/login', component: () => import('@/views/login') },
   // 布局
   {
-    path: '/layout', component: () => import('@/layout'), redirect: '/index', meta: { title: '首页' },
+    path: '/layout', component: () => import('@/layout'), redirect: '/index', meta: { title: '首页' }, //title首页放在这里是为了面包屑
     children: [
       // 首页
-      { path: '/index', component: () => import('@/views/home') },
+      { path: '/index', component: () => import('@/views/home'), },
       // 贷款申请
       { path: '/loan-input', component: () => import('@/views/loan-input'), meta: { title: '贷款申请' } },
       // 贷款管理

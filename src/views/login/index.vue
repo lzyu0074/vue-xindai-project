@@ -1,15 +1,33 @@
 <template>
   <div class="login-container">
-    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-      <el-form-item label="用户名：" prop="account">
+    <el-form
+      :model="ruleForm"
+      :rules="rules"
+      ref="ruleForm"
+      label-width="100px"
+      class="demo-ruleForm"
+    >
+      <el-form-item
+        label="用户名："
+        prop="account"
+      >
         <el-input v-model="ruleForm.account"></el-input>
       </el-form-item>
-      <el-form-item label="密码：" prop="password">
-        <el-input v-model="ruleForm.password" type="password"></el-input>
+      <el-form-item
+        label="密码："
+        prop="password"
+      >
+        <el-input
+          v-model="ruleForm.password"
+          type="password"
+        ></el-input>
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="onLogin('ruleForm')">登录</el-button>
+        <el-button
+          type="primary"
+          @click="onLogin('ruleForm')"
+        >登录</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -39,6 +57,7 @@ export default {
     onLogin(ruleForm) {
       this.$refs[ruleForm].validate(async (valid) => {
         if (valid) {
+          // 派发action，发送登录请求
           this.$store
             .dispatch('onLogin', this.ruleForm)
             .then((res) => {
