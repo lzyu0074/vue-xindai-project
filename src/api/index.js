@@ -45,3 +45,6 @@ export const reqCreateUser = (data) => request({ url: 'permission/createUser', m
 
 // 获取角色列表
 export const reqUserList = () => request({ url: 'user/list', method: 'get' })
+
+// 获取用户信息（详情）
+export const reqUserInfo = () => request({ url: 'user/info', method: 'get' })

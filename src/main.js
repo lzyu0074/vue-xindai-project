@@ -7,6 +7,7 @@ import '@/styles/index.scss'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
+// 执行一下路由守卫
 import './permission'
 
 Vue.use(ElementUI)
