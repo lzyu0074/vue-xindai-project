@@ -14,9 +14,10 @@ router.beforeEach(async (to, from, next) => {
 
   } else {
     // 已登录
+
     const { data: res } = await reqUserInfo()
-    const roleName = res.data.roles[0].name
-    console.log('角色', roleName);
+    const roleName = res.data.roles[0].name  //拿到角色名，根据角色名去过滤路由
+    store.dispatch('toFilterRoutes', roleName)
     next()
   }
 })
