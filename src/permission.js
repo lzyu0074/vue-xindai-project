@@ -11,13 +11,15 @@ router.beforeEach(async (to, from, next) => {
     } else {
       next()
     }
-
   } else {
     // 已登录
 
     const { data: res } = await reqUserInfo()
-    const roleName = res.data.roles[0].name  //拿到角色名，根据角色名去过滤路由
-    store.dispatch('toFilterRoutes', roleName)
+    const roleName = res.data.roles[0].name //拿到角色名，根据角色名去过滤路由
+    const newRoutes = await store.dispatch('toFilterRoutes', roleName)
+    router.addRoutes(newRoutes)
+    console.log(newRoutes)
+    console.log(to.path)
     next()
   }
 })
