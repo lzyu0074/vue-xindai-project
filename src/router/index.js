@@ -19,15 +19,33 @@ VueRouter.prototype.replace = function push(location, onResolve, onReject) {
 
 export const constantRoutes = [
   { path: '/', redirect: '/layout' },
+
   { path: '/login', component: () => import('@/views/login') },
   // 布局
+
+  // {
+  //   path: '/layout',
+  //   component: () => import('@/layout'),
+  //   redirect: '/index',
+  //   meta: { title: '首页' }, //title首页放在这里是为了面包屑
+  //   children: [],
+  //   name: 'layout'
+  // }
+]
+export const conRoutes = [
+  // 布局
+
   {
     path: '/layout',
     component: () => import('@/layout'),
     redirect: '/index',
-    meta: { title: '首页' } //title首页放在这里是为了面包屑
+    meta: { title: '首页' }, //title首页放在这里是为了面包屑
+    children: [],
+    name: 'layout'
   }
 ]
+
+
 
 export const asyncRoutes = [
   // 首页

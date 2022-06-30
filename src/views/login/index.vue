@@ -62,6 +62,7 @@ export default {
             .dispatch('onLogin', this.ruleForm)
             .then((res) => {
               this.$router.push('/index')
+              console.log('登录按钮跳转-------')
             })
             .catch((err) => {
               console.log(err)
