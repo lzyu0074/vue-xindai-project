@@ -21,19 +21,19 @@ router.beforeEach(async (to, from, next) => {
       const { data: res } = await reqUserInfo()
       const roleName = res.data.roles[0].name //拿到角色名，根据角色名去过滤路由
       const newRoutes = await store.dispatch('toFilterRoutes', roleName)
-      console.log(newRoutes)
+      console.log("过滤出来的路由", newRoutes)
       // newRoutes.forEach(item => router.addRoute(item))
       router.addRoute(newRoutes)
-      console.log(to.path)
+      console.log('to.path--', to.path)
       console.log(router);
       console.log('roleName----------------', roleName);
-      next()
+      // next()
 
-      // if (roleName) {
-      //   next({ path: to.path })
-      // } else {
-      //   next({ path: '/login' })
-      // }   //解开这个，注释掉上面的next可以实现功能
+      if (roleName) {
+        next({ path: to.path })
+      } else {
+        next({ path: '/login' })
+      }   //解开这个，注释掉上面的next可以实现功能
     }
 
     // next()

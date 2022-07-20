@@ -29,6 +29,12 @@
           @click="onLogin('ruleForm')"
         >登录</el-button>
       </el-form-item>
+      <el-form-item>
+        <el-button
+          type="primary"
+          @click="onNotAdminLogin('ruleForm')"
+        >非管理员登录</el-button>
+      </el-form-item>
     </el-form>
   </div>
 </template>
@@ -55,6 +61,27 @@ export default {
   },
   methods: {
     onLogin(ruleForm) {
+      this.$refs[ruleForm].validate(async (valid) => {
+        if (valid) {
+          // 派发action，发送登录请求
+          this.$store
+            .dispatch('onLogin', this.ruleForm)
+            .then((res) => {
+              this.$router.push('/index')
+              console.log('登录按钮跳转-------')
+            })
+            .catch((err) => {
+              console.log(err)
+            })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    onNotAdminLogin(ruleForm) {
+      this.ruleForm.account = 'tom'
+      this.ruleForm.password = '12345678'
       this.$refs[ruleForm].validate(async (valid) => {
         if (valid) {
           // 派发action，发送登录请求

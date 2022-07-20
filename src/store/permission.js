@@ -1,6 +1,7 @@
 import { constantRoutes, asyncRoutes, conRoutes } from '@/router'
 
 function filterRoutes(asyncRoutes, roleName) {
+  console.log(asyncRoutes, roleName, 'aaaaaaaaaaaaaaaaaaaaaaaaaadkfjjjjjjj')
   return asyncRoutes.filter((item) => item.meta.roles.indexOf(roleName) !== -1)
 }
 export const permission = {

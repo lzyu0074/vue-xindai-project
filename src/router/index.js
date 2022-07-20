@@ -53,7 +53,7 @@ export const asyncRoutes = [
   // 贷款申请
   { path: '/loan-input', component: () => import('@/views/loan-input'), meta: { title: '贷款申请', roles: ['input'] } },
   // 贷款管理
-  { path: '/input-manager', component: () => import('@/views/input-manager'), meta: { title: '申请管理' }, roles: ['input'] },
+  { path: '/input-manager', component: () => import('@/views/input-manager'), meta: { title: '申请管理', roles: ['input'] } },
   // 贷款审批
   {
     path: '/loan-approve',
@@ -73,7 +73,7 @@ export const asyncRoutes = [
   {
     path: '/rights',
     component: () => import('@/views/rights-management'),
-    meta: { title: '权限管理' },
+    meta: { title: '权限管理', roles: [] },
     redirect: '/rights/create',
     children: [
       { path: 'create', component: () => import('@/views/rights-management/create.vue'), meta: { title: '创建角色' } },
