@@ -13,6 +13,8 @@
       active-text-color="#00adb5"
       router
     >
+      <!-- 无子级菜单 -->
+
       <el-menu-item index="/index">
         <i class="el-icon-s-grid"></i>
         <span slot="title">首页</span>
@@ -29,6 +31,7 @@
       </el-menu-item>
 
       <!-- 有子级菜单 -->
+
       <el-submenu index="/loan-approve">
         <template slot="title">
           <i class="el-icon-s-platform"></i>
