@@ -14,7 +14,14 @@
       router
     >
 
-      <NavMenuItem :item="$store.state.permission.route"></NavMenuItem>
+      <!-- <NavMenuItem :item="$store.state.permission.route" :path="$store.state.permission.route.path"></NavMenuItem> -->
+
+      <NavMenuItem
+        v-for="v in $store.state.permission.route[0].children"
+        :key="v.path"
+        :item="v"
+        :path="v.path"
+      ></NavMenuItem>
 
     </el-menu>
   </el-aside>

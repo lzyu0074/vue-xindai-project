@@ -23,7 +23,7 @@ router.beforeEach(async (to, from, next) => {
       const newRoutes = await store.dispatch('toFilterRoutes', roleName)
       console.log("过滤出来的路由", newRoutes)
       // newRoutes.forEach(item => router.addRoute(item))
-      router.addRoute(newRoutes)
+      router.addRoute(newRoutes[0])
       console.log('to.path--', to.path)
       console.log(router);
       console.log('roleName----------------', roleName);

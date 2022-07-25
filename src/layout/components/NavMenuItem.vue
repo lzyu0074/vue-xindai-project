@@ -2,11 +2,11 @@
   <div>
     <!-- 没有子级 -->
     <el-menu-item
-      index="/index"
+      :index="path"
       v-if="!item.children"
     >
       <i class="el-icon-s-grid"></i>
-      <span slot="title">首页</span>
+      <span slot="title">{{item.meta.title}}</span>
     </el-menu-item>
 
     <!-- 有子级 -->
@@ -23,22 +23,30 @@
         v-for="child in item.children"
         :key="child.path"
         :item="child"
+        :path="getPath(child.path)"
       ></NavMenuItem>
     </el-submenu>
   </div>
 </template>
 
 <script>
-import NavMenuItem from '@/layout/components/NavMenuItem'
+// import NavMenuItem from '@/layout/components/NavMenuItem'
+import _path from 'path'
+
 export default {
   name: 'NavMenuItem',
   data() {
     return {}
   },
-  props: ['item'],
-  components: {
-    NavMenuItem
+  props: ['item', 'path'],
+  methods: {
+    getPath(url) {
+      return _path.resolve(this.path, url)
+    }
   }
+  // components: {
+  //   NavMenuItem
+  // }
 }
 </script>
 

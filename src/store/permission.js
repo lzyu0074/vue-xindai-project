@@ -35,9 +35,9 @@ export const permission = {
           layout.children = filterRoutes(asyncRoutes, roleName)
         }
         // newRoutes = [layout] || []
-        newRoutes = layout
+        newRoutes = [layout] || []
 
-        commit('SETROUTES', layout)
+        commit('SETROUTES', newRoutes)
 
         resolve(newRoutes)
       })
