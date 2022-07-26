@@ -2,24 +2,18 @@
   <!-- 右侧头部 -->
   <div class="top-container">
     <!-- 面包屑 -->
-    <el-breadcrumb separator="/"
-                   class="breadcrumb">
+    <el-breadcrumb separator="/" class="breadcrumb">
       <!-- <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item> -->
-      <el-breadcrumb-item :to="p.path"
-                          v-for="p in breadcrumbList"
-                          :key="p.path">{{ p.meta.title }}</el-breadcrumb-item>
+      <el-breadcrumb-item :to="p.path" v-for="p in breadcrumbList" :key="p.path">{{ p.meta.title }}</el-breadcrumb-item>
     </el-breadcrumb>
     <!-- 下拉菜单退出登录 -->
-    <el-dropdown trigger="click"
-                 @command="handleCommand">
+    <el-dropdown trigger="click" @command="handleCommand">
       <span class="el-dropdown-link"> 退出<i class="el-icon-arrow-down el-icon--right"></i> </span>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item command="logout"
-                          icon="el-icon-switch-button">退出登录</el-dropdown-item>
+        <el-dropdown-item command="logout" icon="el-icon-switch-button">退出登录</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
   </div>
-
 </template>
 
 <script>
@@ -41,7 +35,11 @@ export default {
       // 后台就是返回603，不知道为什么
       if (res.code === 603) {
         removeToken()
+
         this.$router.push('/login')
+
+        // 清除route权限的vuex缓存
+        this.$store.dispatch('onLogout')
       }
     }
   },

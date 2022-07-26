@@ -6,11 +6,15 @@ function filterRoutes(asyncRoutes, roleName) {
 }
 export const permission = {
   state: {
-    state: null
+    route: null
   },
   mutations: {
     SETROUTES(state, route) {
       state.route = route
+    },
+    // 删除route的缓存
+    ONLOGOUT(state) {
+      state.route = null
     }
   },
   actions: {
@@ -24,12 +28,12 @@ export const permission = {
 
         let layout = conRoutes[0]
 
-        console.log(layout, '+++++layout');
-        console.log(conRoutes, '+++++conRoutes');
+        console.log(layout, '+++++layout')
+        console.log(conRoutes, '+++++conRoutes')
         if (roleName.includes('administrator')) {
           console.log('admini----------')
           layout.children = asyncRoutes
-          console.log('ad-----------------');
+          console.log('ad-----------------')
         } else {
           console.log('else---------')
           layout.children = filterRoutes(asyncRoutes, roleName)
@@ -41,6 +45,10 @@ export const permission = {
 
         resolve(newRoutes)
       })
+    },
+    onLogout({ commit }) {
+      console.log('-------------------------------------onlogout')
+      commit('ONLOGOUT')
     }
   },
   getters: {}

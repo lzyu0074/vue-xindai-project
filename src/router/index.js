@@ -20,7 +20,7 @@ VueRouter.prototype.replace = function push(location, onResolve, onReject) {
 export const constantRoutes = [
   { path: '/', redirect: '/layout' },
 
-  { path: '/login', component: () => import('@/views/login') },
+  { path: '/login', component: () => import('@/views/login') }
   // 布局
 
   // {
@@ -45,11 +45,9 @@ export const conRoutes = [
   }
 ]
 
-
-
 export const asyncRoutes = [
   // 首页
-  { path: '/index', component: () => import('@/views/home'), meta: { roles: ['input', 'approve'] } },
+  { path: '/index', component: () => import('@/views/home'), meta: { roles: ['input', 'approve'], title: '首页' } },
   // 贷款申请
   { path: '/loan-input', component: () => import('@/views/loan-input'), meta: { title: '贷款申请', roles: ['input'] } },
   // 贷款管理
